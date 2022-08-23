@@ -13,10 +13,10 @@
         <div class="calc-status"></div>
         <div class="btn-container">
             <div class="btn-row">
-                <button class="special-btn" id="clear">C</button>
-                <button class="special-btn" id="equals">=</button>
-                <button class="special-btn" id="change-sign">+/-</button>
-                <button class="special-btn" id="back-space">X</button>
+                <button data-key="c" class="special-btn" id="clear">C</button>
+                <button data-key="=" class="special-btn" id="equals">=</button>
+                <button data-key="+/-" class="special-btn" id="change-sign">+/-</button>
+                <button data-key="-" class="special-btn" id="back-space">X</button>
             </div>
             <div class="btn-row">
                 <button data-key="1" class="number">1</button>
@@ -59,8 +59,11 @@
   <audio data-key="+" src="sounds/tink.wav"></audio>  
   <audio data-key="*" src="sounds/tink.wav"></audio>  
   <audio data-key="/" src="sounds/tink.wav"></audio>  
+  <audio data-key="+/-" src="sounds/tink.wav"></audio>  
   <audio data-key="." src="sounds/pitch.wav"></audio>  
   <audio data-key="X" src="sounds/bass.wav"></audio>  
+  <audio data-key="Backspace" src="sounds/bass.wav"></audio>  
+  <audio data-key="c" src="sounds/bass.wav"></audio>  
   <audio data-key="=" src="sounds/found.wav"></audio>  
   <audio data-key="operate" src="sounds/operate.wav"></audio>  
  

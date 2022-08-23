@@ -43,54 +43,11 @@ const calculation = {
 
 //************************Business Logic*********************************/
 
-window.addEventListener('keydown',(event) =>
- {
-    if(!isNaN(parseInt(event.key)) ) {
-        console.log('cool');
-        addNumberEvents(parseInt(event.key));
-        addSoundPlayer(event.key);
-        updateCalcStatus();
-        return;
-    }
-    if(event.key === '.'){
-        addSoundPlayer(event.key)
-        addDecimal();
-        updateCalcStatus();
-        return;
-    }
-    if(
-        event.key === '+' || 
-        event.key === '-' ||
-        event.key === '*' || 
-        event.key === '/'
-    ){
-        addSoundPlayer('operate');
-        addOperatorEvents(event.key);
-        updateCalcStatus();
-        return;
-    }
-    if(
-        event.key === '=' || 
-        event.key === 'Enter'
-        ){
-        executeCalculation();
-        updateCalcStatus();
-        return;
-    }
-    if(event.key === 'Backspace'){
-        addSoundPlayer('X');
-        deleteNumber();
-        updateCalcStatus();
-        return;
-    }
-    if(event.key === 'c'){
-        addSoundPlayer('X');
-        clearCache();
-        updateCalcStatus();
-        return;
-    }
+window.addEventListener('keydown',(event) => {
+    addKeyLogic(event);
+    addSoundPlayer(event.key);
+});
 
-})
 equalsBtn.addEventListener('click', executeCalculation);
 
 clearBtn.addEventListener('click',()=>
@@ -102,8 +59,9 @@ clearBtn.addEventListener('click',()=>
 for(let numberBtn of numberBtns)
 {
     console.log(numberBtn);
-    numberBtn.addEventListener('click',(e) => {addNumberEvents(e.target.textContent)});
-    numberBtn.addEventListener('click', (e) => {addSoundPlayer(e.target.getAttribute('data-key'))})
+    numberBtn.addEventListener('click',(e) => {
+        addNumberEvents(e.target.textContent);
+    });
 }
 
 for(let operatorBtn of operatorBtns)
@@ -117,10 +75,15 @@ for(let operatorBtn of operatorBtns)
 backSpace.addEventListener('click',deleteNumber);
 decimalBtn.addEventListener('click',addDecimal);
 changeSignBtn.addEventListener('click',changeSign)
-allBtns.forEach(()=>{addEventListener('click',updateCalcStatus)});
+allBtns.forEach(()=>
+{
+    addEventListener('click',(e) => {
+        updateCalcStatus();
+        addSoundPlayer(e.target.getAttribute('data-key'));
+    })
+});
 function addOperatorEvents(symbol)
 {
-    addSoundPlayer('operate')
     console.log("operator pressed");
     if(isNaN(calculation.number1.value))return;
     if(!isNaN(calculation.number1.value))
@@ -162,6 +125,48 @@ function addNumberEvents(number)
     updateNumbers();
 }
 
+function addKeyLogic(event)
+{
+    if(!isNaN(parseInt(event.key)) ) {
+        console.log('cool');
+        addNumberEvents(parseInt(event.key));
+        updateCalcStatus();
+        return;
+    }
+    if(event.key === '.'){
+        addDecimal();
+        updateCalcStatus();
+        return;
+    }
+    if(
+        event.key === '+' || 
+        event.key === '-' ||
+        event.key === '*' || 
+        event.key === '/'
+    ){
+        addOperatorEvents(event.key);
+        updateCalcStatus();
+        return;
+    }
+    if(
+        event.key === '=' || 
+        event.key === 'Enter'
+        ){
+        executeCalculation();
+        updateCalcStatus();
+        return;
+    }
+    if(event.key === 'Backspace'){
+        deleteNumber();
+        updateCalcStatus();
+        return;
+    }
+    if(event.key === 'c'){
+        clearCache();
+        updateCalcStatus();
+        return;
+    }
+}
 
 function updateNumbers()
 {
@@ -212,7 +217,6 @@ function clearCache()
 
 function deleteNumber()
 {
-    addSoundPlayer('X');
     if(display.textContent.length === 0) return;
     if(calculation.operator.func && isNaN(calculation.number2.value)) return;
     display.textContent = display.textContent.slice(0,-1);
@@ -222,7 +226,6 @@ function deleteNumber()
 
 function addDecimal()
 {
-    addSoundPlayer('.');
     if(calculation.eavluationDone)
     {
         clearCache();
@@ -246,7 +249,6 @@ function addDecimal()
 
 function changeSign()
 {
-    addSoundPlayer('operate');
     if(display.textContent.includes('-'))
     display.textContent = display.textContent.slice(1);
     else
