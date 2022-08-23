@@ -48,10 +48,12 @@ window.addEventListener('keydown',(event) =>
     if(!isNaN(parseInt(event.key)) ) {
         console.log('cool');
         addNumberEvents(parseInt(event.key));
+        addSoundPlayer(event.key);
         updateCalcStatus();
         return;
     }
     if(event.key === '.'){
+        addSoundPlayer(event.key)
         addDecimal();
         updateCalcStatus();
         return;
@@ -62,6 +64,7 @@ window.addEventListener('keydown',(event) =>
         event.key === '*' || 
         event.key === '/'
     ){
+        addSoundPlayer('operate');
         addOperatorEvents(event.key);
         updateCalcStatus();
         return;
@@ -69,17 +72,19 @@ window.addEventListener('keydown',(event) =>
     if(
         event.key === '=' || 
         event.key === 'Enter'
-    ){
+        ){
         executeCalculation();
         updateCalcStatus();
         return;
     }
     if(event.key === 'Backspace'){
+        addSoundPlayer('X');
         deleteNumber();
         updateCalcStatus();
         return;
     }
     if(event.key === 'c'){
+        addSoundPlayer('X');
         clearCache();
         updateCalcStatus();
         return;
@@ -88,12 +93,17 @@ window.addEventListener('keydown',(event) =>
 })
 equalsBtn.addEventListener('click', executeCalculation);
 
-clearBtn.addEventListener('click',clearCache);
+clearBtn.addEventListener('click',()=>
+{
+    addSoundPlayer('X');
+    clearCache();
+});
 
 for(let numberBtn of numberBtns)
 {
     console.log(numberBtn);
     numberBtn.addEventListener('click',(e) => {addNumberEvents(e.target.textContent)});
+    numberBtn.addEventListener('click', (e) => {addSoundPlayer(e.target.getAttribute('data-key'))})
 }
 
 for(let operatorBtn of operatorBtns)
@@ -110,6 +120,7 @@ changeSignBtn.addEventListener('click',changeSign)
 allBtns.forEach(()=>{addEventListener('click',updateCalcStatus)});
 function addOperatorEvents(symbol)
 {
+    addSoundPlayer('operate')
     console.log("operator pressed");
     if(isNaN(calculation.number1.value))return;
     if(!isNaN(calculation.number1.value))
@@ -164,6 +175,7 @@ function updateNumbers()
 
 function executeCalculation()
 {
+    addSoundPlayer('=');
     if
     (
         isNaN(calculation.number1.value) || 
@@ -200,6 +212,7 @@ function clearCache()
 
 function deleteNumber()
 {
+    addSoundPlayer('X');
     if(display.textContent.length === 0) return;
     if(calculation.operator.func && isNaN(calculation.number2.value)) return;
     display.textContent = display.textContent.slice(0,-1);
@@ -209,6 +222,7 @@ function deleteNumber()
 
 function addDecimal()
 {
+    addSoundPlayer('.');
     if(calculation.eavluationDone)
     {
         clearCache();
@@ -232,6 +246,7 @@ function addDecimal()
 
 function changeSign()
 {
+    addSoundPlayer('operate');
     if(display.textContent.includes('-'))
     display.textContent = display.textContent.slice(1);
     else
@@ -240,6 +255,13 @@ function changeSign()
     updateCalcStatus();
 }
 
+function addSoundPlayer(name)
+{
+    const audio = document.querySelector(`audio[data-key="${name}"]`);
+    if(!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+}
 
 //************************Business Logic*********************************/
 
