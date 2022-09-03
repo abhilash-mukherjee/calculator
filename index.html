@@ -5,45 +5,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div id="container">
-        <div class="display"></div>
-        <div class="calc-status"></div>
-        <div class="btn-container">
-            <div class="btn-row">
-                <button data-key="c" class="special-btn" id="clear">C</button>
-                <button data-key="=" class="special-btn" id="equals">=</button>
-                <button data-key="+/-" class="special-btn" id="change-sign">+/-</button>
-                <button data-key="-" class="special-btn" id="back-space">X</button>
+        <div class="main">
+            <div class="calcstat-container">
+                <div class="calcstat">
+                    <div class="calcstat-text"></div>
+                </div>
             </div>
-            <div class="btn-row">
-                <button data-key="1" class="number">1</button>
-                <button data-key="2" class="number">2</button>
-                <button data-key="3" class="number">3</button>
-                <button data-key="+" class="operator" id="sum">+</button>
+            <div class="display-container">
+                <div class="display">
+                    <div class="display-text"></div>
+                </div>
             </div>
-            <div class="btn-row">
-                <button data-key="4" class="number">4</button>
-                <button data-key="5" class="number">5</button>
-                <button data-key="6" class="number">6</button>
-                <button data-key="-" class="operator"  id="difference">-</button>
+            <div class="calc-status"></div>
+            <div class="btn-container">
+                <div class="btn-row">
+                    <button data-key="c" class="special-btn" id="clear">C</button>
+                    <button data-key="=" class="special-btn" id="equals">=</button>
+                    <button data-key="+/-" class="special-btn" id="change-sign">+/-</button>
+                    <button data-key="-" class="special-btn" id="back-space">X</button>
+                </div>
+                <div class="btn-row">
+                    <button data-key="1" class="number">1</button>
+                    <button data-key="2" class="number">2</button>
+                    <button data-key="3" class="number">3</button>
+                    <button data-key="+" class="operator" id="sum">+</button>
+                </div>
+                <div class="btn-row">
+                    <button data-key="4" class="number">4</button>
+                    <button data-key="5" class="number">5</button>
+                    <button data-key="6" class="number">6</button>
+                    <button data-key="-" class="operator"  id="difference">-</button>
+                </div>
+                <div class="btn-row">
+                    <button data-key="7" class="number">7</button>
+                    <button data-key="8" class="number">8</button>
+                    <button data-key="9" class="number">9</button>
+                    <button data-key="*" class="operator"  id="product">*</button>
+                </div>
+                <div class="btn-row">
+                    <button></button>
+                    <button data-key="0" class="number">0</button>
+                    <button data-key="." id="decimal">.</button>
+                    <button data-key="/" class="operator"  id="divide">/</button>
+                </div>
             </div>
-            <div class="btn-row">
-                <button data-key="7" class="number">7</button>
-                <button data-key="8" class="number">8</button>
-                <button data-key="9" class="number">9</button>
-                <button data-key="*" class="operator"  id="product">*</button>
-            </div>
-            <div class="btn-row">
-                <button></button>
-                <button data-key="0" class="number">0</button>
-                <button data-key="." id="decimal">.</button>
-                <button data-key="/" class="operator"  id="divide">/</button>
-            </div>
+        </div> 
+        <div id="copy-right">
+            © 2022 Abhilash Mukherjee. All Rights Reserved.
         </div>
-    </div> 
     
 <audio data-key="1" src="sounds/clap.wav"></audio>
 <audio data-key="2" src="sounds/hihat.wav"></audio>

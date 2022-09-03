@@ -2,8 +2,8 @@ const MAX_DIGITS = 6;
 const MAX_DECIMALS = 4;
 const LIMIT_MESSEGE = "LIMIT EXCEEDED!!!";
 const DIVIDED_BY_ZERO_MESSEGE = "CAN'T DIVIDE BY ZERO!!!";
-const display = document.querySelector('.display');
-const calculationStatus = document.querySelector('.calc-status');
+const display = document.querySelector('.display-text');
+const calculationStatus = document.querySelector('.calcstat-text');
 const numberBtns = document.querySelectorAll('.number');
 const operatorBtns = document.querySelectorAll('.operator');
 const equalsBtn = document.querySelector('#equals');
@@ -36,7 +36,6 @@ const calculation = {
     status:'',
     getResult: function(){
         let result = operate(this.operator.func,this.number1.value,this.number2.value);
-        console.log(result);
         return parseFloat(result.toFixed(3))
     },
 }
@@ -46,6 +45,7 @@ const calculation = {
 window.addEventListener('keydown',(event) => {
     addKeyLogic(event);
     addSoundPlayer(event.key);
+    const btn = Array.from(allBtns).find(btn => btn.textContent.toLowerCase().localeCompare(event.key)=== 0)
 });
 
 equalsBtn.addEventListener('click', executeCalculation);
@@ -58,7 +58,6 @@ clearBtn.addEventListener('click',()=>
 
 for(let numberBtn of numberBtns)
 {
-    console.log(numberBtn);
     numberBtn.addEventListener('click',(e) => {
         addNumberEvents(e.target.textContent);
     });
@@ -75,16 +74,15 @@ for(let operatorBtn of operatorBtns)
 backSpace.addEventListener('click',deleteNumber);
 decimalBtn.addEventListener('click',addDecimal);
 changeSignBtn.addEventListener('click',changeSign)
-allBtns.forEach(()=>
+allBtns.forEach((btn)=>
 {
-    addEventListener('click',(e) => {
+    btn.addEventListener('click',(e) => {
         updateCalcStatus();
         addSoundPlayer(e.target.getAttribute('data-key'));
     })
 });
 function addOperatorEvents(symbol)
 {
-    console.log("operator pressed");
     if(isNaN(calculation.number1.value))return;
     if(!isNaN(calculation.number1.value))
     {
@@ -128,7 +126,6 @@ function addNumberEvents(number)
 function addKeyLogic(event)
 {
     if(!isNaN(parseInt(event.key)) ) {
-        console.log('cool');
         addNumberEvents(parseInt(event.key));
         updateCalcStatus();
         return;
@@ -161,7 +158,7 @@ function addKeyLogic(event)
         updateCalcStatus();
         return;
     }
-    if(event.key === 'c'){
+    if(event.key === 'c' || event.key === 'C'){
         clearCache();
         updateCalcStatus();
         return;
@@ -174,8 +171,6 @@ function updateNumbers()
         calculation.number1.value = parseFloat(display.textContent);
     else 
         calculation.number2.value = parseFloat(display.textContent);
-
-    console.log(`n1: ${calculation.number1.value}, n2: ${calculation.number2.value}`);
 }
 
 function executeCalculation()
@@ -257,13 +252,7 @@ function changeSign()
     updateCalcStatus();
 }
 
-function addSoundPlayer(name)
-{
-    const audio = document.querySelector(`audio[data-key="${name}"]`);
-    if(!audio) return;
-    audio.currentTime = 0;
-    audio.play();
-}
+
 
 //************************Business Logic*********************************/
 
@@ -285,10 +274,8 @@ function clearCalcStatusDisplay()
 
 function displayNumber(number)
 {
-    console.log('inside Display Number.' + number);
     if(hasExceededLimit(number.toString()))
     {
-        console.log("Limit Exceeded");
         clearCache();
         calculation.status = LIMIT_MESSEGE; 
         return;
@@ -320,7 +307,6 @@ function hasExceededLimit(string)
 
 function updateCalcStatus()
 {
-    console.log("updated");
     if(calculation.status.length > 0)
     {
         calculationStatus.textContent = calculation.status;
@@ -346,19 +332,75 @@ function addToDisplay(digit)
     {
         if(splitArr[1]?.length > MAX_DECIMALS-1 )
         {
-            console.log('decimal lt exceeded');
             return;
         }
     }
     else if(splitArr[0]?.length > MAX_DIGITS-1)
     {
-        console.log('digit limit exceeded');
         return;
     }
     displayNumber(`${display.textContent}${digit}`);
 }
 
+
+function addSoundPlayer(name)
+{
+    const audio = document.querySelector(`audio[data-key="${name}"]`);
+    if(!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+}
+
 // ********************** UI FUNCTIONS******************************************
+
+
+//*********Animations***************************************/
+
+window.addEventListener('keydown',(event) => {
+    const btn = Array.from(allBtns).find(btn => btn.textContent.toLowerCase().localeCompare(event.key)=== 0)
+    if(btn)btnPressedDown(btn);
+});
+
+window.addEventListener('keyup',(event) => {
+    const btn = Array.from(allBtns).find(btn => btn.textContent.toLowerCase().localeCompare(event.key)=== 0)
+    if(btn)btnPressedUp(btn);
+});
+
+allBtns.forEach((btn)=>
+{
+    btn.addEventListener('mousedown',(e) => {
+        btnPressedDown(btn);
+    })
+});
+
+allBtns.forEach((btn)=>
+{
+    btn.addEventListener('mouseup',(e) => {
+        btnPressedUp(btn);
+    });
+    btn.addEventListener('mouseenter',(e) => {
+        btnPressedDown(btn);
+    });
+    btn.addEventListener('mousedown',(e) => {
+        btnPressedDown(btn);
+    });
+    btn.addEventListener('mouseleave',(e) => {
+        btnPressedUp(btn);
+    });
+});
+
+function btnPressedDown(btn)
+{
+    btn.classList.add('highlighted');
+}
+
+function btnPressedUp(btn)
+{
+    btn.classList.remove('highlighted');
+}
+
+
+//*********Animations***************************************/
 
 //*************************************************************************** */
 //*************************************************************************** */
